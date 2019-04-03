@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Server extends JFrame implements ActionListener{
+public class Server extends JFrame implements ActionListener {
     private static final long serialVersionUID = -4280936133506383901L;
     private Vector<ClientHandler> users = new Vector<>();
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
     private JTextArea jta;
 
-    public Server(){
+    public Server() {
         setLayout(new BorderLayout());
         setTitle("Server Chat");
         setSize(900, 900);
@@ -29,7 +29,13 @@ public class Server extends JFrame implements ActionListener{
         panel.add(jta, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
         revalidate();
-        jta.append("Server Socket Open\n");
+        String ip = null;
+        try {
+            ip = Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        jta.append("Server Socket Open, running on " + ip + "\n");
         ServerSocket ss = null;;
         try{
             ss = new ServerSocket(2019);
@@ -40,8 +46,9 @@ public class Server extends JFrame implements ActionListener{
                 oos = new ObjectOutputStream(s.getOutputStream());
                 jta.append("User connected\n");
                 ClientHandler client = new ClientHandler( s,ois, oos);
+                Thread t = new Thread(client);
                 users.add(client);
-                client.run();
+                t.start();
             }
         }catch(IOException ioe){
         }finally{
