@@ -16,6 +16,18 @@ public class Client extends JFrame implements ActionListener {
 
     public Client() {
         
+        //String ip = JOptionPane.showInputDialog(null, "Enter IP address of chatroom");
+        //int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket of chatroom"));
+        try {
+            int port = 2019;
+            InetAddress address = Inet4Address.getLocalHost();
+            System.out.println("Localhost: " + address.getHostAddress());
+            Socket s = new Socket(address, port);
+            ois = new ObjectInputStream(s.getInputStream());
+            oos = new ObjectOutputStream(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JPanel panel = new JPanel();
         jta = new JTextArea();
         jta.setEditable(false);
@@ -29,19 +41,6 @@ public class Client extends JFrame implements ActionListener {
         JButton send = new JButton("Send");
         jtfPanel.add(send);
         add(jtfPanel, BorderLayout.SOUTH);
-        pack();
-        //String ip = JOptionPane.showInputDialog(null, "Enter IP address of chatroom");
-        //int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket of chatroom"));
-        try {
-            int port = 2019;
-            InetAddress address = Inet4Address.getLocalHost();
-            System.out.println("Localhost: " + address.getHostAddress());
-            Socket s = new Socket(address, port);
-            ois = new ObjectInputStream(s.getInputStream());
-            oos = new ObjectOutputStream(s.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         Thread readObjects = new Thread(new Runnable(){
             @Override
             public void run() {
@@ -61,11 +60,12 @@ public class Client extends JFrame implements ActionListener {
                 }
             }
         });
-        
+        pack();
         setLayout(new BorderLayout());
         setTitle("Client Chat");
         setSize(600, 600);
         setLocationRelativeTo(null);
+        setResizable(true);
         setVisible(true);
         
         readObjects.start();
