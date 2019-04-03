@@ -53,6 +53,7 @@ public class Server extends JFrame implements ActionListener {
                 ClientHandler client = new ClientHandler( s,ois, oos);
                 Thread t = new Thread(client);
                 users.add(client);
+                revalidate();
                 t.start();
             }catch(IOException ioe){
                 ioe.printStackTrace();
