@@ -36,7 +36,7 @@ public class Server extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         jta.append("Server Socket Open, running on " + ip + "\n");
-        ServerSocket ss = null;;
+        ServerSocket ss = null;
         try{
             ss = new ServerSocket(2019);
             Socket s = null;
@@ -51,13 +51,7 @@ public class Server extends JFrame implements ActionListener {
                 t.start();
             }
         }catch(IOException ioe){
-        }finally{
-            try{
-                jta.append("Server Socket Closed\n");
-                ss.close();  
-            }catch(IOException ioe){
-                System.out.println(ioe);
-            } 
+            ioe.printStackTrace();
         }
     }
 

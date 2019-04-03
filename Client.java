@@ -35,6 +35,7 @@ public class Client extends JFrame implements ActionListener {
         try {
             int port = 2019;
             InetAddress address = Inet4Address.getLocalHost();
+            System.out.println("Localhost: " + address.getHostAddress());
             Socket s = new Socket(address, port);
             ois = new ObjectInputStream(s.getInputStream());
             oos = new ObjectOutputStream(s.getOutputStream());
