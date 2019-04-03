@@ -54,17 +54,18 @@ public class Client extends JFrame implements ActionListener {
                     }catch(ClassNotFoundException cnfe){
                         cnfe.printStackTrace();
                     }catch(IOException ioe){
-                        ioe.printStackTrace();
+                        jta.append("Server Shutdown, Goodbye");
                     }
                 }
             }
         });
-        pack();
+        
         setLayout(new BorderLayout());
         setTitle("Client Chat");
         setSize(600, 600);
         setLocationRelativeTo(null);
         setVisible(true);
+        pack();
         readObjects.start();
     }
 
