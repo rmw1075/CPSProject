@@ -7,8 +7,6 @@ import javax.swing.*;
 
 public class Server extends JFrame implements ActionListener {
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
     private JTextArea jta;
 
     public Server() throws IOException{
@@ -39,14 +37,16 @@ public class Server extends JFrame implements ActionListener {
         ServerSocket ss = new ServerSocket(port);
         Socket s;
         jta.append(String.format("Server Up, Running On IP: %s PORT: %d", ip, port));
+        System.out.println("Test");
         while(true){
             s = ss.accept();
+            
             System.out.println("Waiting for connection");
-            ois = new ObjectInputStream(s.getInputStream());
-            oos = new ObjectOutputStream(s.getOutputStream());            
             jta.append("User connected\n");
+           
+            
             System.out.println("Conected");
-            ClientHandler client = new ClientHandler( s,ois, oos);
+            ClientHandler client = new ClientHandler( s);
             Thread t = new Thread(client);
             users.add(client);
             t.start();
@@ -75,10 +75,14 @@ public class Server extends JFrame implements ActionListener {
          * @param ois ObjectInputStream
          * @param oos ObjectOutputStream
          */
-        public ClientHandler(Socket s, ObjectInputStream ois, ObjectOutputStream oos){
-            this.ois = ois;
-            this.oos = oos;
+        public ClientHandler(Socket s){
             this.s = s;
+            try{
+                ois = new ObjectInputStream(s.getInputStream());
+                oos = new ObjectOutputStream(s.getOutputStream()); 
+            }catch(IOException ioe){
+                ioe.printStackTrace();
+            }
         }
 
         @Override

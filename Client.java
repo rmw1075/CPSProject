@@ -11,6 +11,7 @@ public class Client extends JFrame implements ActionListener {
     JTextArea jta;
     ObjectInputStream ois;
     ObjectOutputStream oos;
+    String bozo = "clown";
     String name;
 
     public Client() {
@@ -45,8 +46,12 @@ public class Client extends JFrame implements ActionListener {
             Socket s = new Socket(address, port);
             ois = new ObjectInputStream(s.getInputStream());
             oos = new ObjectOutputStream(s.getOutputStream());
+            bozo = "clown";
         } catch (IOException e) {
             e.printStackTrace();
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e);
         }
         
         Thread readObjects = new Thread(new Runnable(){
@@ -68,8 +73,6 @@ public class Client extends JFrame implements ActionListener {
                 }
             }
         });
-
-        
         readObjects.start();
     }
 
@@ -83,13 +86,20 @@ public class Client extends JFrame implements ActionListener {
 
     public void sendMessage(){
         String message = jtf.getText();
-        jtf.setText("");
+        System.out.println(message);
+        //bozo = _bozo;
+        System.out.println(bozo);
         try{
+            System.out.println(bozo);
+            oos.flush();
             oos.writeObject(message);
             oos.flush();
         }catch(IOException ioe){
             ioe.printStackTrace();
+        }catch(NullPointerException ioe){
+            ioe.printStackTrace();
         }
+        jtf.setText("");
     }
 
     public static void main(String[] args){
