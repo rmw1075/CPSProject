@@ -14,11 +14,7 @@ public class Client extends JFrame implements ActionListener {
     String name = null;
 
     public Client() {
-        setLayout(new BorderLayout());
-        setTitle("Client Chat");
-        setSize(600, 600);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        
         JPanel panel = new JPanel();
         jta = new JTextArea();
         jta.setEditable(false);
@@ -32,12 +28,11 @@ public class Client extends JFrame implements ActionListener {
         JButton send = new JButton("Send");
         jtfPanel.add(send);
         add(jtfPanel, BorderLayout.SOUTH);
-        revalidate();
         //String ip = JOptionPane.showInputDialog(null, "Enter IP address of chatroom");
         //int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket of chatroom"));
         try {
-            int port = 1234;
-            String address = InetAddress.getLocalHost().getHostAddress();
+            int port = 2019;
+            InetAddress address = Inet4Address.getLocalHost();
             Socket s = new Socket(address, port);
             ois = new ObjectInputStream(s.getInputStream());
             oos = new ObjectOutputStream(s.getOutputStream());
@@ -63,9 +58,13 @@ public class Client extends JFrame implements ActionListener {
                 }
             }
         });
-
+        pack();
+        setLayout(new BorderLayout());
+        setTitle("Client Chat");
+        setSize(600, 600);
+        setLocationRelativeTo(null);
+        setVisible(true);
         readObjects.start();
-
     }
 
 
