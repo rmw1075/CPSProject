@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.*;
 
 public class Client extends JFrame implements ActionListener {
+    private static final long serialVersionUID = -8195823990683342026L;
     JButton jb = null;
     JTextField jtf = null;
     JTextArea jta = null;
