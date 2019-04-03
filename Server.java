@@ -14,10 +14,6 @@ public class Server extends JFrame implements ActionListener {
 
     public Server() {
         setLayout(new BorderLayout());
-        setTitle("Server Chat");
-        setSize(900, 900);
-        setLocationRelativeTo(null);
-        setVisible(true);
         JPanel panel = new JPanel();
         JPanel buttons = new JPanel();
         JButton exit = new JButton("Exit");
@@ -28,7 +24,12 @@ public class Server extends JFrame implements ActionListener {
         jta = new JTextArea();
         panel.add(jta, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
-        revalidate();
+        
+        pack();
+        setTitle("Server Chat");
+        setSize(900, 900);
+        setLocationRelativeTo(null);
+        setVisible(true);
         String ip = null;
         try {
             ip = Inet4Address.getLocalHost().getHostAddress();
@@ -47,15 +48,15 @@ public class Server extends JFrame implements ActionListener {
             try{
                 s = ss.accept();
                 ois = new ObjectInputStream(s.getInputStream());
-                oos = new ObjectOutputStream(s.getOutputStream());
+                oos = new ObjectOutputStream(s.getOutputStream());            
+                jta.append("User connected\n");
+                ClientHandler client = new ClientHandler( s,ois, oos);
+                Thread t = new Thread(client);
+                users.add(client);
+                t.start();
             }catch(IOException ioe){
                 ioe.printStackTrace();
             }
-            jta.append("User connected\n");
-            ClientHandler client = new ClientHandler( s,ois, oos);
-            Thread t = new Thread(client);
-            users.add(client);
-            t.start();
         }
     }
 
