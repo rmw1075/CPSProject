@@ -37,21 +37,25 @@ public class Server extends JFrame implements ActionListener {
         }
         jta.append("Server Socket Open, running on " + ip + "\n");
         ServerSocket ss = null;
+        Socket s = null;
         try{
             ss = new ServerSocket(2019);
-            Socket s = null;
-            while(true){
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        while(true){
+            try{
                 s = ss.accept();
                 ois = new ObjectInputStream(s.getInputStream());
                 oos = new ObjectOutputStream(s.getOutputStream());
-                jta.append("User connected\n");
-                ClientHandler client = new ClientHandler( s,ois, oos);
-                Thread t = new Thread(client);
-                users.add(client);
-                t.start();
+            }catch(IOException ioe){
+                ioe.printStackTrace();
             }
-        }catch(IOException ioe){
-            ioe.printStackTrace();
+            jta.append("User connected\n");
+            ClientHandler client = new ClientHandler( s,ois, oos);
+            Thread t = new Thread(client);
+            users.add(client);
+            t.start();
         }
     }
 
