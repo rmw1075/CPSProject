@@ -38,6 +38,7 @@ public class Server extends JFrame implements ActionListener{
                 s = ss.accept();
                 ois = new ObjectInputStream(s.getInputStream());
                 oos = new ObjectOutputStream(s.getOutputStream());
+                jta.append("User connected\n");
                 ClientHandler client = new ClientHandler( s,ois, oos);
                 users.add(client);
                 client.run();
