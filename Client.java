@@ -29,6 +29,7 @@ public class Client extends JFrame implements ActionListener {
         JButton send = new JButton("Send");
         jtfPanel.add(send);
         add(jtfPanel, BorderLayout.SOUTH);
+        pack();
         //String ip = JOptionPane.showInputDialog(null, "Enter IP address of chatroom");
         //int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket of chatroom"));
         try {
@@ -65,7 +66,7 @@ public class Client extends JFrame implements ActionListener {
         setSize(600, 600);
         setLocationRelativeTo(null);
         setVisible(true);
-        pack();
+        
         readObjects.start();
     }
 
