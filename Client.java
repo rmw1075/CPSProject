@@ -6,28 +6,17 @@ import java.io.*;
 import java.net.*;
 
 public class Client extends JFrame implements ActionListener {
-    private static final long serialVersionUID = -8195823990683342026L;
-    JButton jb = null;
-    JTextField jtf = null;
-    JTextArea jta = null;
-    ObjectInputStream ois = null;
-    ObjectOutputStream oos = null;
-    String name = null;
+    JButton jb;
+    JTextField jtf;
+    JTextArea jta;
+    ObjectInputStream ois;
+    ObjectOutputStream oos;
+    String name;
 
     public Client() {
-        
+        setLayout(new BorderLayout());
         //String ip = JOptionPane.showInputDialog(null, "Enter IP address of chatroom");
         //int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket of chatroom"));
-        try {
-            int port = 2019;
-            InetAddress address = Inet4Address.getLocalHost();
-            System.out.println("Localhost: " + address.getHostAddress());
-            Socket s = new Socket(address, port);
-            ois = new ObjectInputStream(s.getInputStream());
-            oos = new ObjectOutputStream(s.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         JPanel panel = new JPanel();
         jta = new JTextArea();
         jta.setEditable(false);
@@ -39,8 +28,27 @@ public class Client extends JFrame implements ActionListener {
         jtf = new JTextField(40);
         jtfPanel.add(jtf);
         JButton send = new JButton("Send");
+        send.addActionListener(this);
         jtfPanel.add(send);
         add(jtfPanel, BorderLayout.SOUTH);
+        
+        setTitle("Client Chat");
+        setSize(600, 600);
+        setLocationRelativeTo(null);
+        setResizable(true);
+        setVisible(true);
+
+        try {
+            int port = 2019;
+            InetAddress address = Inet4Address.getLocalHost();
+            System.out.println("Localhost: " + address.getHostAddress() + " Port: " + port);
+            Socket s = new Socket(address, port);
+            ois = new ObjectInputStream(s.getInputStream());
+            oos = new ObjectOutputStream(s.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         Thread readObjects = new Thread(new Runnable(){
             @Override
             public void run() {
@@ -60,13 +68,7 @@ public class Client extends JFrame implements ActionListener {
                 }
             }
         });
-        pack();
-        setLayout(new BorderLayout());
-        setTitle("Client Chat");
-        setSize(600, 600);
-        setLocationRelativeTo(null);
-        setResizable(true);
-        setVisible(true);
+
         
         readObjects.start();
     }
@@ -79,11 +81,12 @@ public class Client extends JFrame implements ActionListener {
         }
     }
 
-    private void sendMessage(){
+    public void sendMessage(){
         String message = jtf.getText();
         jtf.setText("");
         try{
             oos.writeObject(message);
+            oos.flush();
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
