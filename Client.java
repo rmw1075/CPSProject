@@ -53,7 +53,7 @@ public class Client extends JFrame implements ActionListener {
             e.printStackTrace();
             System.out.println(e);
         }
-        
+        System.out.println(oos);
         Thread readObjects = new Thread(new Runnable(){
             @Override
             public void run() {
@@ -79,6 +79,7 @@ public class Client extends JFrame implements ActionListener {
 
     public void actionPerformed( ActionEvent ae){
         String command = ae.getActionCommand();
+        System.out.println(oos);
         if(command.equals("Send")){
             sendMessage();
         }
@@ -88,7 +89,7 @@ public class Client extends JFrame implements ActionListener {
         String message = jtf.getText();
         System.out.println(message);
         //bozo = _bozo;
-        System.out.println(bozo);
+        System.out.println(oos);
         try{
             System.out.println(bozo);
             oos.flush();
