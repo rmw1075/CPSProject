@@ -25,30 +25,32 @@ public class Server extends JFrame implements ActionListener {
         setTitle("Server Chat");
         setSize(900, 900);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         String ip = null;
         try {
             ip = Inet4Address.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
         }
-
         int port = 2019;
         ServerSocket ss = new ServerSocket(port);
         Socket s;
-        jta.append(String.format("Server Up, Running On IP: %s PORT: %d", ip, port));
+        jta.append(String.format("Server Up, Running On IP: %s PORT: %d\n", ip, port));
         System.out.println("Test");
         while(true){
             s = ss.accept();
             
-            System.out.println("Waiting for connection");
-            jta.append("User connected\n");
-           
-            
-            System.out.println("Conected");
-            ClientHandler client = new ClientHandler( s);
-            Thread t = new Thread(client);
+            String userName = InetAddress.getLocalHost().getHostName();
+            jta.append(String.format("User connected: %s\n", userName));
+            ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+            ClientHandler client = new ClientHandler(s, userName, oos, ois);
             users.add(client);
+            Thread t = new Thread(client);
+            for(ClientHandler mc : users){
+                oos.writeObject(String.format("%s has entered the server", userName));
+                oos.flush();
+            }
             t.start();
         }
     }
@@ -75,14 +77,11 @@ public class Server extends JFrame implements ActionListener {
          * @param ois ObjectInputStream
          * @param oos ObjectOutputStream
          */
-        public ClientHandler(Socket s){
+        public ClientHandler(Socket s, String name, ObjectOutputStream oos, ObjectInputStream ois){
             this.s = s;
-            try{
-                ois = new ObjectInputStream(s.getInputStream());
-                oos = new ObjectOutputStream(s.getOutputStream()); 
-            }catch(IOException ioe){
-                ioe.printStackTrace();
-            }
+            this.name = name;
+            this.oos = oos;
+            this.ois = ois;
         }
 
         @Override
@@ -91,7 +90,7 @@ public class Server extends JFrame implements ActionListener {
                 try{
                     Object obj = ois.readObject();
                     if (obj instanceof String){
-                        String message = (String) obj;
+                        String message = String.format("%s: %s", this.name, (String) obj);
                         jta.append(message);
                         for(ClientHandler mc : users){
                             oos.writeObject(message);
@@ -102,9 +101,7 @@ public class Server extends JFrame implements ActionListener {
                         }
                     }
                 }catch(IOException ioe){
-                    System.out.println(ioe);
                 }catch(ClassNotFoundException cnfe){
-                    System.out.println(cnfe);
                 }
             }
         }
@@ -118,8 +115,7 @@ public class Server extends JFrame implements ActionListener {
         try{
             new Server();
         }catch(IOException ioe){
-            ioe.printStackTrace();
+            System.out.println(ioe);
         }
-        
     } 
 }
