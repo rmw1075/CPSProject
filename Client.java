@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -104,7 +105,6 @@ public class Client extends JFrame {
             Request req = new Request(name, game);
             System.out.println(req);
             try{
-                oos.flush();
                 oos.writeObject(req);
                 oos.flush();
             }catch(IOException ioe){
