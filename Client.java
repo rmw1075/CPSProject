@@ -43,6 +43,11 @@ public class Client extends JFrame {
         ObjectInputStream ois = null;
         ObjectOutputStream oos = null;
         Socket s = null;
+        try{
+            name = InetAddress.getLocalHost().getHostName();
+        }catch(UnknownHostException uhe){
+
+        }
         try {
             int port = 2019;
             InetAddress address = Inet4Address.getLocalHost();
@@ -63,6 +68,7 @@ public class Client extends JFrame {
 
         ClientListener listener = new ClientListener(oos);
         send.addActionListener(listener);
+        hangman.addActionListener(listener);
         ReadThread readObjects = new ReadThread(ois);
         readObjects.run();
     }
@@ -76,6 +82,8 @@ public class Client extends JFrame {
             String command = ae.getActionCommand();
             if(command.equals("Send")){
                 sendMessage();
+            } else if(command.equals("Play Hangman")){
+                sendRequest("Hangman");
             }
         } 
         public void sendMessage(){
@@ -90,6 +98,21 @@ public class Client extends JFrame {
                 ioe.printStackTrace();
             }
             jtf.setText("");
+        }
+
+        public void sendRequest(String game){
+            Request req = new Request(name, game);
+            System.out.println(req);
+            try{
+                oos.flush();
+                oos.writeObject(req);
+                oos.flush();
+            }catch(IOException ioe){
+                ioe.printStackTrace();
+                System.out.println(ioe);
+            }catch(NullPointerException ioe){
+                ioe.printStackTrace();
+            }
         }
     }
 

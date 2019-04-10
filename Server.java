@@ -96,9 +96,13 @@ public class Server extends JFrame implements ActionListener {
                             oos.writeObject(message);
                         }
                     }else if(obj instanceof Request){
-                        for(ClientHandler mc : users){
+                        Request gameRequest = (Request) obj;
+                        jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
+                        /**                        
+                        * for(ClientHandler mc : users){
                             oos.writeObject(obj);
-                        }
+                            } 
+                        */
                     }
                 }catch(IOException ioe){
                 }catch(ClassNotFoundException cnfe){
