@@ -5,6 +5,7 @@ public class HangMan
 {   
     //Variables, will hold the words
     private ArrayList<String> wordList = new ArrayList<String>();
+    private ArrayList<String> solveWord = new ArrayList<String>();
     private String word = "";
     final String DEFAULT = "WordList2.txt";
 
@@ -13,11 +14,17 @@ public class HangMan
     {
         if(filename.equals(""))
         {
-            System.out.println(setWord("WordList2.txt"));
+            String word = setWord("WordList2.txt");
+            System.out.println(word);
+            solveWord(word);
+            System.exit(0);
+            
         }
         else
         {
-            System.out.println(setWord(filename));
+            String word = setWord(filename);
+            System.out.println(word);
+            System.exit(0);
         }
 
     }
@@ -45,7 +52,7 @@ public class HangMan
             System.out.println(fnf);
         }
 
-        int max = wordList.size();
+        int max = wordList.size() - 1;
         int min = 1;
         int range = max - min + 1;
 
@@ -57,6 +64,45 @@ public class HangMan
         return word;
 
     }//End of SetWord
+    
+    //Function that when called will start the solving of the game, if attempts are higher than the body count, 
+    public void solveWord(String wrd)
+    {
+      for (char c : wrd.toCharArray())
+      {
+         String convert = Character.toString(c);
+         solveWord.add(convert);
+      }
+      
+      for(int i = 0; i < 6; i++)
+      {
+         System.out.print("Enter a letter ");
+         Scanner input = new Scanner(System.in);
+         String in = input.nextLine();
+         
+         
+         checkLetter(in);
+         
+         
+      }
+      
+      System.out.println(solveWord);
+    }//End of solveWord
+    
+    public boolean checkLetter(String wrd)
+    {
+      if(solveWord.contains(wrd))
+      {
+         System.out.println("Letter Found");
+         return true;
+      }
+      else
+      {
+         System.out.println("Letter not found");
+         return false;
+      }
+    }
+    
 
     public static void main(String[] args)
     {
