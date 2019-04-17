@@ -37,13 +37,10 @@ public class HangManGUI extends JFrame implements ActionListener {
 			panel.add(keyboardButtons[i]);
 		} 
       
-      repaint();
-      
       add(panel, BorderLayout.SOUTH);
       //set up J Frame
       setTitle("Hang Man");
       setSize(frameWidth,frameHeight);
-      //pack();
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setVisible(true);
       setLocationRelativeTo(null);
@@ -112,10 +109,11 @@ public class HangManGUI extends JFrame implements ActionListener {
             break;
          }
          
+         int xpos1 = 150;
+         int xpos2 = 170;
+            
          //draw lines for word
          for(int i = 0; i < word.length(); i++) {
-            int xpos1 = 150;
-            int xpos2 = 170;
             
             g.drawLine(xpos1,200,xpos2,200);
             
