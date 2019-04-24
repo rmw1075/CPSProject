@@ -31,13 +31,17 @@ public class HangMan
     
    public HangMan()
    {
-      word = setWord("WordList2.txt");
+      word = setWord("WordList1.txt");
+      
       for (char c: word.toCharArray())
       {
          String ch = Character.toString(c);
-        // hide = hide + "-";
          solveWord.add(ch);
       }
+         // String ch = Character.toString(c);
+//         // hide = hide + "-";
+//          solveWord.add(ch);
+      
    }
 
     //Accepts a filename and builds an ArrayList with the words
@@ -51,7 +55,20 @@ public class HangMan
       
          while(scan.hasNext())
          {
-            wordList.add(scan.next());
+            String wrd = scan.next();
+            //System.out.println(wrd);
+            
+            if(wrd.length() < 2 || wrd.length() > 6)
+            {
+               //Skip words greater than 6 letters long and shorter than 2 letters
+               continue;
+            }
+            else
+            {
+               wordList.add(wrd);
+            }
+            
+            //wordList.add(scan.next());
          }
       
          System.out.println(wordList);

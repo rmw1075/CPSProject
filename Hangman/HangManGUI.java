@@ -16,10 +16,10 @@ public class HangManGUI extends JFrame implements ActionListener {
    String word;
    
    public static void main(String [] args) {
-      new HangManGUI("");
+      new HangManGUI("tooth");
    }
    
-   public HangManGUI (String _word) {
+   public HangManGUI (String solveWord) {
       HangMan hm = new HangMan();
       
       
@@ -119,7 +119,7 @@ public class HangManGUI extends JFrame implements ActionListener {
             g.drawLine(120,130,130,150);
             g.drawLine(120,175,110,195);
             g.drawLine(120,175,130,195);
-            g.drawString("Sorry, you lost, mate!", 300, 300);
+            g.drawString("Sorry, you lost, mate!", frameWidth/2, frameHeight/2);
             break;
       }
          
