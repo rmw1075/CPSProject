@@ -103,7 +103,6 @@ public class Client extends JFrame {
 
         public void sendRequest(String game){
             Request req = new Request(name, game);
-            System.out.println(req);
             try{
                 oos.writeObject(req);
                 oos.flush();

@@ -36,7 +36,6 @@ public class Server extends JFrame implements ActionListener {
         ServerSocket ss = new ServerSocket(port);
         Socket s;
         jta.append(String.format("Server Up, Running On IP: %s PORT: %d\n", ip, port));
-        System.out.println("Test");
         while(true){
             s = ss.accept();
             
