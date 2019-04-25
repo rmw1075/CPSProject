@@ -13,14 +13,15 @@ public class HangManGUI extends JFrame implements ActionListener {
    int frameHeight = 500;
    int bodyCount = 0;
    String word;
-   
-   public static void main(String [] args) {
-      new HangManGUI("");
-   }
+   String[] spaces;
    
    public HangManGUI (String _word) {
       word = _word;
-      JFrame frame = new JFrame("Hangman");
+      for(int i = 0; i < word.length(); i++){
+         spaces[i] = " ";
+      }
+
+      //JFrame frame = new JFrame("Hangman");
       setLayout(new BorderLayout());
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(3,10));
@@ -37,7 +38,6 @@ public class HangManGUI extends JFrame implements ActionListener {
 			panel.add(keyboardButtons[i]);
 		} 
       
-      repaint();
       
       add(panel, BorderLayout.SOUTH);
       //set up J Frame
@@ -111,32 +111,37 @@ public class HangManGUI extends JFrame implements ActionListener {
             g.drawString("Sorry, you lost!", 300, 300);
             break;
          }
-         
+         int xpos1 = 150;
+         int xpos2 = 170;
          //draw lines for word
+
          for(int i = 0; i < word.length(); i++) {
-            int xpos1 = 150;
-            int xpos2 = 170;
-            System.out.println("Printing another line");
             g.drawLine(xpos1,200,xpos2,200);
-            
+            g.drawString(spaces[i], xpos1 + ((xpos2 - xpos1 ) / 2), 190);
             xpos1 += 60;
             xpos2 += 60;
          }
-         
       }//End of paint 
       
-      public void letter(boolean correct) {
+      public void letter(boolean correct, char inputChar) {
          if (correct = false) {
             bodyCount ++;
          }
          if (correct = true) {
-            //add letter to its place
+            for(int i = 0; i < word.length(); i++){
+               if(word.charAt(i) == inputChar){
+                  spaces[i] = Character.toString(inputChar);
+               }
+            }
          }
       }//End of Letter
       
       public void actionPerformed(ActionEvent e) {  
-         //send Diego letter
-         
+         System.out.println(e.getActionCommand());
+      // String lt = hm.this.checkLetter(e.getActionCommand());
+         char inputChar = (char) e.getActionCommand();
+         boolean check = super.checkLetter(inputChar);
+         letter(check, inputChar);
+         repaint(); 
       }//End of Action Listener
-
-	}//End of class
+}//End of class

@@ -4,9 +4,7 @@ import java.io.Serializable;
 public class HangMan implements Serializable
 {   
     //Variables, will hold the words
-    private ArrayList<String> solveWord = new ArrayList<String>();
     private String word = "";
-    private String uncovered = "";
 
     //Generates the game
     public HangMan(String word)
@@ -16,9 +14,10 @@ public class HangMan implements Serializable
     
     public void start(){
       new HangManGUI(word);
-      solveWord(word);
+      //solveWord(word);
     }
     //Function that when called will start the solving of the game, if attempts are higher than the body count, 
+    /*
     public void solveWord(String wrd)
     {
       String hide = "";      
@@ -41,11 +40,18 @@ public class HangMan implements Serializable
       
       System.out.println(solveWord);
     }//End of solveWord
-    
-    //Checks if the letter passed in is inside of the chosen word
-    public boolean checkLetter(String wrd)
-    {
+    */
 
+    //Checks if the letter passed in is inside of the chosen word
+    public boolean checkLetter(char letter)
+    {
+      for(int a = 0; a < word.length(); a++){
+        if (word.charAt(a) == letter){
+          return true;
+        }
+      }
+      return false;
+      /*
       if(solveWord.contains(wrd))
       {
          uncovered = "";
@@ -71,7 +77,6 @@ public class HangMan implements Serializable
          System.out.println(uncovered);
          return false;
       }
-
-      
+     */ 
     }//End of checkLetter
 }
