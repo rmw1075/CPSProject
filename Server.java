@@ -8,8 +8,8 @@ import javax.swing.*;
 public class Server extends JFrame implements ActionListener {
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
-
-    public Server() throws IOException{
+    private String filename = "WordList1.txt";
+    public Server() throws IOException {
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         JPanel buttons = new JPanel();
@@ -37,7 +37,7 @@ public class Server extends JFrame implements ActionListener {
         Socket s;
         jta.append(String.format("Server Up, Running On IP: %s PORT: %d\n", ip, port));
         System.out.println("Test");
-        while(true){
+        while (true) {
             s = ss.accept();
             
             String userName = InetAddress.getLocalHost().getHostName();
@@ -47,7 +47,7 @@ public class Server extends JFrame implements ActionListener {
             ClientHandler client = new ClientHandler(s, userName, oos, ois);
             users.add(client);
             Thread t = new Thread(client);
-            for(ClientHandler mc : users){
+            for (ClientHandler mc : users) {
                 oos.writeObject(String.format("%s has entered the server", userName));
                 oos.flush();
             }
@@ -55,9 +55,9 @@ public class Server extends JFrame implements ActionListener {
         }
     }
 
-    public void actionPerformed( ActionEvent ae){
+    public void actionPerformed ( ActionEvent ae ) {
         String command = ae.getActionCommand();
-        if (command.equals("Exit")){
+        if (command.equals("Exit")) {
             System.exit(1);
         }
     }
@@ -65,7 +65,7 @@ public class Server extends JFrame implements ActionListener {
     /**
      * ClientHandler class
      */
-    public class ClientHandler implements Runnable{
+    public class ClientHandler implements Runnable {
         private ObjectInputStream ois;
         private ObjectOutputStream oos;
         private String name = null;
@@ -77,7 +77,7 @@ public class Server extends JFrame implements ActionListener {
          * @param ois ObjectInputStream
          * @param oos ObjectOutputStream
          */
-        public ClientHandler(Socket s, String name, ObjectOutputStream oos, ObjectInputStream ois){
+        public ClientHandler(Socket s, String name, ObjectOutputStream oos, ObjectInputStream ois) {
             this.s = s;
             this.name = name;
             this.oos = oos;
@@ -85,40 +85,71 @@ public class Server extends JFrame implements ActionListener {
         }
 
         @Override
-        public void run(){
-            while(true){
-                try{
+        public void run() {
+            while (true) {
+                try {
                     Object obj = ois.readObject();
-                    if (obj instanceof String){
+                    if (obj instanceof String) {
                         String message = String.format("%s: %s", this.name, (String) obj);
                         jta.append(message);
                         for(ClientHandler mc : users){
                             oos.writeObject(message);
                         }
-                    }else if(obj instanceof Request){
+                    } else if (obj instanceof Request) {
                         Request gameRequest = (Request) obj;
                         jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
+                        String word = setWord(filename);
+                        System.out.println("Word chosen is: " + word);
                         /**                        
                         * for(ClientHandler mc : users){
                             oos.writeObject(obj);
                             } 
                         */
                     }
-                }catch(IOException ioe){
-                }catch(ClassNotFoundException cnfe){
+                } catch (IOException ioe) {
+                } catch (ClassNotFoundException cnfe) {
                 }
             }
         }
+
+        public String setWord (String filename) {   
+            ArrayList<String> wordList = new ArrayList<String>();
+            try {
+                File fl = new File(filename);
+                Scanner scan = new Scanner(fl);
+                while(scan.hasNext()){
+                    String wrd = scan.next();
+                    //System.out.println(wrd);
+                    if(wrd.length() < 2 || wrd.length() > 6) {
+                    //Skip words greater than 6 letters long and shorter than 2 letters
+                        continue;
+                    } else {
+                        wordList.add(wrd);
+                    }
+                //wordList.add(scan.next());
+                }
+                System.out.println(wordList);
+                scan.close();
+            } catch(FileNotFoundException fnf) {
+                System.out.println(fnf);
+            }
+            int max = wordList.size() - 1;
+            int min = 1;
+            int range = max - min + 1;
+            int rand = (int)(Math.random() * range) + min;
+            word = wordList.get(rand);
+            return word;
+        }//End of SetWord
     }
 
     /**
      * MAIN METHOD
      * @param args Arguments
      */
-    public static void main(String[] args){
-        try{
+    public static void main(String[] args) {
+        try {
             new Server();
-        }catch(IOException ioe){
+        } catch(IOException ioe) {
             System.out.println(ioe);
         }
     } 
