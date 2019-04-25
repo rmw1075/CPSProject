@@ -98,12 +98,11 @@ public class Server extends JFrame implements ActionListener {
                         Request gameRequest = (Request) obj;
                         jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
                         String word = setWord(filename);
-                        System.out.println("Word chosen is: " + word);
-                        /**                        
-                        * for(ClientHandler mc : users){
-                            oos.writeObject(obj);
-                            } 
-                        */
+                        System.out.println("Word chosen is: " + word);                      
+                        for(ClientHandler mc : users){
+                            Hangman hang = new Hangman(word);
+                            oos.writeObject(hang);
+                        } 
                     }
                 } catch (IOException ioe) {
                 } catch (ClassNotFoundException cnfe) {

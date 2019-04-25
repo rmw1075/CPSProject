@@ -130,7 +130,9 @@ public class Client extends JFrame {
                     if(obj instanceof String){
                         String message = (String) obj;
                         jta.append(message + "\n");
-                    }else if(obj instanceof Request){
+                    }else if(obj instanceof Hangman){
+                        Hangman hang = (Hangman) obj;
+                        hang.start();
                     }
                 }catch(ClassNotFoundException cnfe){
                     cnfe.printStackTrace();
