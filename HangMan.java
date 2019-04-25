@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
-
-public class HangMan
+import java.io.Serializable;
+public class HangMan implements Serializable
 {   
     //Variables, will hold the words
     private ArrayList<String> solveWord = new ArrayList<String>();
@@ -17,7 +17,6 @@ public class HangMan
     public void start(){
       new HangManGUI(word);
       solveWord(word);
-      System.exit(0);
     }
     //Function that when called will start the solving of the game, if attempts are higher than the body count, 
     public void solveWord(String wrd)

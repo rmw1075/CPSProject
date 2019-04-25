@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Server extends JFrame implements ActionListener {
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
-    private String filename = "WordList1.txt";
+    private String filename = "WordsList2.txt";
     public Server() throws IOException {
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
@@ -105,7 +105,11 @@ public class Server extends JFrame implements ActionListener {
                         } 
                     }
                 } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                    System.out.println(ioe);
                 } catch (ClassNotFoundException cnfe) {
+                    cnfe.printStackTrace();
+                    System.out.println(cnfe);
                 }
             }
         }
@@ -135,8 +139,8 @@ public class Server extends JFrame implements ActionListener {
             int min = 1;
             int range = max - min + 1;
             int rand = (int)(Math.random() * range) + min;
-            word = wordList.get(rand);
-            return word;
+            String chosenWord = wordList.get(rand);
+            return chosenWord;
         }//End of SetWord
     }
 

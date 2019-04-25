@@ -137,6 +137,8 @@ public class Client extends JFrame {
                 }catch(ClassNotFoundException cnfe){
                     cnfe.printStackTrace();
                 }catch(IOException ioe){
+                    ioe.printStackTrace();
+                    System.out.println(ioe);
                     jta.append("Server Shutdown, Goodbye");
                     break;
                 }
