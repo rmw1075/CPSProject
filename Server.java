@@ -100,7 +100,7 @@ public class Server extends JFrame implements ActionListener {
                         String word = setWord(filename);
                         System.out.println("Word chosen is: " + word);                      
                         for(ClientHandler mc : users){
-                            Hangman hang = new Hangman(word);
+                            HangMan hang = new HangMan(word);
                             oos.writeObject(hang);
                         } 
                     }
