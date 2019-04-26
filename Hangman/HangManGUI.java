@@ -12,7 +12,12 @@ import java.util.*;
 public class HangManGUI extends JFrame implements ActionListener {
    int frameWidth = 500;
    int frameHeight = 500;
+   
+   int ypos = 200;
+      
    int bodyCount = 0;
+   int letterCount = 0;
+   
    String word;
    
    public static void main(String [] args) {
@@ -48,7 +53,7 @@ public class HangManGUI extends JFrame implements ActionListener {
          panel.add(keyboardButtons[i]);
       } 
       
-      repaint();
+      //repaint();
       
       add(panel, BorderLayout.SOUTH);
       //set up J Frame
@@ -122,18 +127,22 @@ public class HangManGUI extends JFrame implements ActionListener {
             g.drawString("Sorry, you lost, mate!", frameWidth/2, frameHeight/2);
             break;
       }
-         
+      
       int xpos1 = 150;
-      int xpos2 = 170;
-         //draw lines for word
+      int xpos2 = 170;   
+      
+      //draw lines for word
       for(int i = 0; i < word.length(); i++) {
-            
-         System.out.println("Printing another line");
-         g.drawLine(xpos1,200,xpos2,200);
+         g.drawLine(xpos1,ypos,xpos2,ypos);
             
          xpos1 += 60;
          xpos2 += 60;
       }
+      
+      for(int a = 0; a < letterCount; a ++) {
+            char currChar = word.charAt(a);
+            g.drawString(String.valueOf(currChar),xpos1,190);
+         }
          
    }//End of paint 
       
@@ -147,6 +156,7 @@ public class HangManGUI extends JFrame implements ActionListener {
       else if (correct == true)
       {
          //add letter to its place
+         letterCount ++;
          System.out.println("Yay letter found");
       }
    }//End of Letter
