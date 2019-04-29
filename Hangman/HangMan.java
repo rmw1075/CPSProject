@@ -29,9 +29,9 @@ public class HangMan
 // 
 //     }
     
-   public HangMan()
+   public HangMan(String word)
    {
-      word = setWord("WordList1.txt");
+      this.word = word;
       
       for (char c: word.toCharArray())
       {
@@ -44,54 +44,6 @@ public class HangMan
       
    }
 
-    //Accepts a filename and builds an ArrayList with the words
-    //Picks one of the words and returns it 
-   public String setWord(String filename)
-   {   
-      try
-      {
-         File fl = new File(filename);
-         Scanner scan = new Scanner(fl);
-      
-         while(scan.hasNext())
-         {
-            String wrd = scan.next();
-            //System.out.println(wrd);
-            
-            if(wrd.length() < 2 || wrd.length() > 6)
-            {
-               //Skip words greater than 6 letters long and shorter than 2 letters
-               continue;
-            }
-            else
-            {
-               wordList.add(wrd);
-            }
-            
-            //wordList.add(scan.next());
-         }
-      
-         System.out.println(wordList);
-      
-         scan.close();
-      }
-      catch(FileNotFoundException fnf)
-      {
-         System.out.println(fnf);
-      }
-   
-      int max = wordList.size() - 1;
-      int min = 1;
-      int range = max - min + 1;
-   
-      int rand = (int)(Math.random() * range) + min;
-   
-      word = wordList.get(rand);
-   
-   
-      return word;
-   
-   }//End of SetWord
     
     //Function that when called will return the word set
    public String getWord()
