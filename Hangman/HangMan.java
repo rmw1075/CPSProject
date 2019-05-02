@@ -1,121 +1,37 @@
 import java.util.*;
-import java.io.*;
 
 public class HangMan
 {   
-    //Variables, will hold the words
    private ArrayList<String> solveWord = new ArrayList<String>();
-   private ArrayList<String> wordList = new ArrayList<String>();
-   private String word = "";
-   
-    //Generates the game
-    // public HangMan(String filename)
-//     {
-//         if(filename.equals(""))
-//         {
-//             String word = setWord("WordList2.txt");
-//             new HangManGUI(word);
-//             System.out.println(word);
-//             solveWord(word);
-//             System.exit(0);
-//             
-//         }
-//         else
-//         {
-//             String word = setWord(filename);
-//             System.out.println(word);
-//             System.exit(0);
-//         }
-// 
-//     }
-    
-   public HangMan(String word)
-   {
+   private char[] wordChar;
+   private String word;
+
+   public HangMan(String word) {
       this.word = word;
-      
-      for (char c: word.toCharArray())
-      {
+      wordChar = new char[word.length()];
+      for (int a = 0; a < word.length(); a++) {
+         char c = word.charAt(a);
          String ch = Character.toString(c);
          solveWord.add(ch);
+         wordChar[a] = ' ';
       }
-         // String ch = Character.toString(c);
-//         // hide = hide + "-";
-//          solveWord.add(ch);
-      
    }
 
-    
-    //Function that when called will return the word set
-   public String getWord()
-   {
+   public char[] getCurrentWord() {
+      return wordChar;
+   }
+
+   public String getWord() {
       return word;
    }
     
-    //Function that when called will start the solving of the game, if attempts are higher than the body count, 
-    // public void solveWord(String wrd)
-//     {
-//       // String hide = "";      
-//       for (char c: wrd.toCharArray())
-//       {
-//         String ch = Character.toString(c);
-//         // hide = hide + "-";
-//         solveWord.add(ch);
-//       }
-      
-
-      // System.out.println(hide);
-      
-      // for(int i = 0; i < 6; i++)
-//       {
-//          System.out.println("Enter a letter ");
-//          Scanner input = new Scanner(System.in);
-//          String in = input.nextLine();
-//          checkLetter(in);
-//       }
-      
-      // System.out.println(solveWord);
-    //End of solveWord
-    
-    //Checks if the letter passed in is inside of the chosen word
-   // public boolean checkLetter(String wrd)
-//    {
-//    
-//       if(solveWord.contains(wrd))
-//       {
-//          uncovered = "";
-//          System.out.println("Letter Found");
-//          for (int i = 0; i<word.length(); i++)
-//          {
-//             if(solveWord.get(i) == wrd)
-//             {
-//                uncovered = uncovered + wrd;
-//             }
-//             else
-//             {
-//                uncovered = uncovered + "-";
-//             }
-//          
-//          }
-//          System.out.println(uncovered);
-//          return true;
-//       }
-//       else
-//       {
-//          System.out.println("Letter not found");
-//          System.out.println(uncovered);
-//          return false;
-//       }
-   
-      
-   //}//End of checkLetter
-    
-
-    // public static void main(String[] args)
-//     {
-//         System.out.print("Enter filename for hangman words, or press enter for default word list: ");
-//         Scanner input = new Scanner(System.in);
-//         String in = input.nextLine();
-//         // new HangMan(in);
-//         //new HangMan(in);
-//     }
+   public void update(String sc) {
+      char c = sc.charAt(0);
+      for (int i = 0; i < solveWord.size(); i++) {
+         String s = solveWord.get(i);
+         if (s.charAt(0) == c) {
+            wordChar[i] = c;
+         }
+      }
+   }
 }
