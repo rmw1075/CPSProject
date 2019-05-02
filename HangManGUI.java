@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -17,12 +18,13 @@ public class HangManGUI extends JFrame implements ActionListener {
    HangMan hm;
    String word;
    
-   public static void main(String[] args) {
-      new HangManGUI("tooth");
-   }
    
    public HangManGUI (String solveWord) {
-      hm = new HangMan(solveWord);
+      word = solveWord;
+   }
+
+   public void play(){
+      hm = new HangMan(word);
       word = hm.getWord();
       System.out.println(word);
       setLayout(new BorderLayout());
@@ -40,11 +42,10 @@ public class HangManGUI extends JFrame implements ActionListener {
       add(panel, BorderLayout.SOUTH);
       setTitle("Hang Man");
       setSize(frameWidth,frameHeight);
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       setVisible(true);
       setLocationRelativeTo(null);
    }
-
    public void paint(Graphics g) {
       super.paint(g);
       g.drawLine(50,200,100,200);
@@ -101,30 +102,28 @@ public class HangManGUI extends JFrame implements ActionListener {
       
    public void letter(boolean correct) {
       if (correct == false) {
-         System.out.println(bodyCount);
          bodyCount ++;
       } else if (correct == true) {
          letterCount ++;
-         System.out.println("Yay letter found");
       }
    }
       
    public void actionPerformed(ActionEvent e) {  
-      System.out.println(e.getActionCommand());
       boolean check = checkLetter(e.getActionCommand(), word);
       JButton jb = (JButton) e.getSource();
       jb.setEnabled(false);
       letter(check);
-      repaint(); 
+      repaint();
+      if(hm.checkWin()){
+         return;
+      }
    }
    
    public boolean checkLetter(String letter, String wrd) {
       if (wrd.contains(letter)) {
-         System.out.println("Letter Found");
          hm.update(letter);
          return true;
       } else {
-         System.out.println("Letter not found");
          return false;
       }
    }

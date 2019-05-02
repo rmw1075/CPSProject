@@ -1,3 +1,5 @@
+
+
 import java.util.*;
 
 public class HangMan
@@ -20,7 +22,16 @@ public class HangMan
    public char[] getCurrentWord() {
       return wordChar;
    }
-
+   
+   public boolean checkWin(){
+      String check = new String(wordChar);
+      if(check.equals(word)){
+         return true;
+      } else {
+         return false;
+      }
+   }
+   
    public String getWord() {
       return word;
    }

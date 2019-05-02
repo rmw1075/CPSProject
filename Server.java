@@ -1,16 +1,15 @@
-import Hangman;
 
 import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
+
 import java.awt.event.*;
 import javax.swing.*;
-
 public class Server extends JFrame implements ActionListener {
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
-    private String filename = "WordsList2.txt";
+    private String filename = "WordList1.txt";
     public Server() throws IOException {
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
@@ -102,7 +101,7 @@ public class Server extends JFrame implements ActionListener {
                         String word = setWord(filename);
                         System.out.println("Word chosen is: " + word);                      
                         for(ClientHandler mc : users){
-                            HangMan hang = new HangMan(word);
+                            HangManGUI hang = new HangManGUI(word);
                             oos.writeObject(hang);
                         } 
                     }
@@ -132,7 +131,6 @@ public class Server extends JFrame implements ActionListener {
                     }
                 //wordList.add(scan.next());
                 }
-                System.out.println(wordList);
                 scan.close();
             } catch(FileNotFoundException fnf) {
                 System.out.println(fnf);

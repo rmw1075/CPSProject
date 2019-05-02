@@ -103,7 +103,6 @@ public class Client extends JFrame {
 
         public void sendRequest(String game){
             Request req = new Request(name, game);
-            System.out.println(req);
             try{
                 oos.writeObject(req);
                 oos.flush();
@@ -130,9 +129,9 @@ public class Client extends JFrame {
                     if(obj instanceof String){
                         String message = (String) obj;
                         jta.append(message + "\n");
-                    }else if(obj instanceof HangMan){
-                        HangMan hang = (HangMan) obj;
-                        hang.start();
+                    }else {
+                        HangManGUI hang = (HangManGUI) obj;
+                        hang.play();
                     }
                 }catch(ClassNotFoundException cnfe){
                     cnfe.printStackTrace();
