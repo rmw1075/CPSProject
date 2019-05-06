@@ -141,6 +141,9 @@ public class Client extends JFrame {
                     if (obj instanceof String) {
                         String message = (String) obj;
                         jta.append(message + "\n");
+                    } else if(obj instanceof ArrayList<String>){
+                        ArrayList<String> users = (ArrayList<String) obj;
+                        seeUsers(users);
                     } else {
                         HangManGUI hang = (HangManGUI) obj;
                         hang.play();
@@ -157,7 +160,19 @@ public class Client extends JFrame {
         }
 
         public void showUsers(ArrayList<String> users){
-            
+            JFrame jf = new JFrame();
+            JPanel jp = new JPanel();
+            JTextArea jta = new JTextArea();
+            for(int a = 0; a < users.size(); a++){
+                jta.append(users + "\n");
+            }
+            jp.add(jta);
+            jf.add(jp);
+            jf.setTitle("Active Users");
+            jf.setSize(300, 300);
+            jf.setLocationRelativeTo(null);
+            jt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            jf.setVisible(true);
         }
     }
 
