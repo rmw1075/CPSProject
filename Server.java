@@ -91,7 +91,7 @@ public class Server extends JFrame implements ActionListener {
                     Object obj = ois.readObject();
                     if (obj instanceof String) {
                         String s = (String) obj;
-                        if ((s.substring(0, 7)).equals("COMMAND")) {
+                        if (s.length() >= 7 && (s.substring(0, 7)).equals("COMMAND")) {
                             try {
                                 oos.writeObject(getUsers());
                                 oos.flush();
@@ -106,8 +106,7 @@ public class Server extends JFrame implements ActionListener {
                             for (ClientHandler mc : users) {
                                 oos.writeObject(message);
                             }  
-                        }
-                        
+                        }  
                     } else if (obj instanceof Request) {
                         Request gameRequest = (Request) obj;
                         jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
