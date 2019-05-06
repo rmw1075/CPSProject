@@ -117,18 +117,12 @@ public class Server extends JFrame implements ActionListener {
                             oos.writeObject(hang);
                         } 
                     }
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                    System.out.println(ioe);
-                } catch (ClassNotFoundException cnfe) {
-                    cnfe.printStackTrace();
-                    System.out.println(cnfe);
-                }
+                } catch (IOException ioe) { 
+                } catch (ClassNotFoundException cnfe) { }
             }
         }
 
         public ArrayList<String> getUsers(){
-
             ArrayList<String> usersStr = new ArrayList<String>();
             for(int a = 0; a < users.size(); a++){
                 usersStr.add(users.get(a).name);
@@ -153,9 +147,7 @@ public class Server extends JFrame implements ActionListener {
                 //wordList.add(scan.next());
                 }
                 scan.close();
-            } catch(FileNotFoundException fnf) {
-                System.out.println(fnf);
-            }
+            } catch(FileNotFoundException fnf) { }
             int max = wordList.size() - 1;
             int min = 1;
             int range = max - min + 1;
@@ -172,8 +164,6 @@ public class Server extends JFrame implements ActionListener {
     public static void main(String[] args) {
         try {
             new Server();
-        } catch(IOException ioe) {
-            System.out.println(ioe);
-        }
+        } catch(IOException ioe) { }
     } 
 }
