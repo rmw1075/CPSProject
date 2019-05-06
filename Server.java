@@ -90,11 +90,24 @@ public class Server extends JFrame implements ActionListener {
                 try {
                     Object obj = ois.readObject();
                     if (obj instanceof String) {
-                        String message = String.format("%s: %s", this.name, (String) obj);
-                        jta.append(message);
-                        for(ClientHandler mc : users){
-                            oos.writeObject(message);
+                        String s = (String) obj;
+                        if ((s.substring(0, 7)).equals("COMMAND")) {
+                            try {
+                                oos.writeObject(getUsers());
+                                oos.flush();
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            } catch (NullPointerException npe) {
+                                npe.printStackTrace();
+                            }
+                        } else {
+                            String message = String.format("%s: %s", this.name, (String) obj);
+                            jta.append(message);
+                            for (ClientHandler mc : users) {
+                                oos.writeObject(message);
+                            }  
                         }
+                        
                     } else if (obj instanceof Request) {
                         Request gameRequest = (Request) obj;
                         jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
@@ -113,6 +126,15 @@ public class Server extends JFrame implements ActionListener {
                     System.out.println(cnfe);
                 }
             }
+        }
+
+        public ArrayList<String> getUsers(){
+
+            ArrayList<String> usersStr = new ArrayList<String>();
+            for(int a = 0; a < users.size(); a++){
+                usersStr.add(users.get(a).name);
+            }
+            return usersStr;
         }
 
         public String setWord (String filename) {   

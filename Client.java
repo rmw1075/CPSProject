@@ -1,10 +1,8 @@
-
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 import java.io.*;
 import java.net.*;
+
 
 public class Client extends JFrame {
     JButton jb;
@@ -30,8 +28,10 @@ public class Client extends JFrame {
         JMenuBar games = new JMenuBar();
         JMenu gamesMenu = new JMenu("Games");
         JMenuItem hangman = new JMenuItem("Play Hangman");
+        JMenuItem getUsers = new JMenuItem("Users Online");
         gamesMenu.add(hangman);
         games.add(gamesMenu);
+        games.add(getUsers);
         setJMenuBar(games);
         jtfPanel.add(send);
         add(jtfPanel, BorderLayout.SOUTH);
@@ -44,9 +44,9 @@ public class Client extends JFrame {
         ObjectInputStream ois = null;
         ObjectOutputStream oos = null;
         Socket s = null;
-        try{
+        try {
             name = InetAddress.getLocalHost().getHostName();
-        }catch(UnknownHostException uhe){
+        } catch(UnknownHostException uhe) {
 
         }
         try {
@@ -68,80 +68,96 @@ public class Client extends JFrame {
         }
 
         ClientListener listener = new ClientListener(oos);
+        getUsers.addActionListener(listener);
         send.addActionListener(listener);
         hangman.addActionListener(listener);
         ReadThread readObjects = new ReadThread(ois);
         readObjects.run();
     }
 
-    public class ClientListener implements ActionListener{
+    public class ClientListener implements ActionListener {
         private ObjectOutputStream oos;
-        public ClientListener(ObjectOutputStream oos){
+        public ClientListener(ObjectOutputStream oos) {
             this.oos = oos;
         }
-        public void actionPerformed( ActionEvent ae){
+        public void actionPerformed( ActionEvent ae) {
             String command = ae.getActionCommand();
             if(command.equals("Send")){
                 sendMessage();
-            } else if(command.equals("Play Hangman")){
+            } else if (command.equals("Play Hangman")) {
                 sendRequest("Hangman");
+            } else if (command.equals("Users Online")) {
+                seeUsers();
             }
         } 
-        public void sendMessage(){
+        public void sendMessage() {
             String message = jtf.getText();
-            try{
+            try {
                 oos.flush();
                 oos.writeObject(message);
                 oos.flush();
-            }catch(IOException ioe){
+            } catch (IOException ioe) {
                 ioe.printStackTrace();
-            }catch(NullPointerException ioe){
+            } catch (NullPointerException ioe) {
                 ioe.printStackTrace();
             }
             jtf.setText("");
         }
 
-        public void sendRequest(String game){
+        public void seeUsers() {
+            String st = "COMMAND-GET_USERS";
+            try {
+                oos.writeObject(st);
+                oos.flush();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } catch (NullPointerException npe) {
+                npe.printStackTrace();
+            }
+        }
+        public void sendRequest(String game) {
             Request req = new Request(name, game);
-            try{
+            try {
                 oos.writeObject(req);
                 oos.flush();
-            }catch(IOException ioe){
+            } catch (IOException ioe) {
                 ioe.printStackTrace();
                 System.out.println(ioe);
-            }catch(NullPointerException ioe){
+            } catch(NullPointerException ioe) {
                 ioe.printStackTrace();
             }
         }
     }
 
-
-   
-    public class ReadThread implements Runnable{
+    public class ReadThread implements Runnable {
         private ObjectInputStream ois;
-        public ReadThread(ObjectInputStream ois){
+        public ReadThread(ObjectInputStream ois) {
             this.ois = ois;
         }
-        public void run(){
-            while(true){
-                try{
+        public void run() {
+            while (true) {
+                try {
                     Object obj = ois.readObject();
-                    if(obj instanceof String){
+                    if (obj instanceof String) {
                         String message = (String) obj;
                         jta.append(message + "\n");
-                    }else {
+                    } else {
                         HangManGUI hang = (HangManGUI) obj;
                         hang.play();
                     }
-                }catch(ClassNotFoundException cnfe){
+                } catch (ClassNotFoundException cnfe) {
                     cnfe.printStackTrace();
-                }catch(IOException ioe){
+                } catch (IOException ioe) {
                     ioe.printStackTrace();
                     System.out.println(ioe);
                     jta.append("Server Shutdown, Goodbye");
                     break;
                 }
             }
+        }
+
+        public void showUsers(ArrayList<String> users){
+            
         }
     }
 
