@@ -10,7 +10,12 @@ public class Client extends JFrame {
     JTextField jtf;
     JTextArea jta;
     String name;
-
+   Color buttonColor = new Color(209,179,255);
+   Color dropColor = new Color(235,224,255);
+   Color manColor = new Color(255,199,57);
+   Color lineColor = new Color(235,131,142);
+   Color backgroundColor = new Color(217,252,245);
+   
     public Client() {
         setLayout(new BorderLayout());
         // String ip = JOptionPane.showInputDialog(null, "Enter IP address of
@@ -18,6 +23,7 @@ public class Client extends JFrame {
         // int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket
         // of chatroom"));
         jta = new JTextArea();
+        jta.setBackground(backgroundColor);
         jta.setEditable(false);
         jta.setLineWrap(true);
         jta.setAutoscrolls(true);
@@ -26,10 +32,15 @@ public class Client extends JFrame {
         jtf = new JTextField(40);
         jtfPanel.add(jtf);
         JButton send = new JButton("Send");
+        send.setBackground(buttonColor);
         JMenuBar games = new JMenuBar();
+        games.setBackground(buttonColor);
         JMenu gamesMenu = new JMenu("Games");
         JMenuItem hangman = new JMenuItem("Play Hangman");
+        hangman.setBackground(dropColor);
         JMenuItem getUsers = new JMenuItem("Users Online");
+        getUsers.setBackground(buttonColor);
+        
         gamesMenu.add(hangman);
         games.add(gamesMenu);
         games.add(getUsers);

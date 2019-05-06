@@ -8,28 +8,41 @@ import java.awt.Container;
 import java.lang.Object;
 import java.util.*;
 
-//Alexis
+/**
+ * A class to create the GUI for hangman
+ * 5/6/2019
+**/
 
 public class HangManGUI extends JFrame implements ActionListener {
+   //frame settings
    int frameWidth = 500;
    int frameHeight = 500;
+   
+   //counters
    int bodyCount = 0;
    int letterCount = 0;
    HangMan hm;
    String word;
    
+   //colors for GUI
+   Color buttonColor = new Color(209,179,255);
+   Color manColor = new Color(255,199,57);
+   Color lineColor = new Color(235,131,142);
    
    public HangManGUI (String solveWord) {
       word = solveWord;
    }
 
    public void play(){
+      //create new game with word chosen by server
       hm = new HangMan(word);
       word = hm.getWord();
       System.out.println(word);
       setLayout(new BorderLayout());
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(3,10));
+      
+      //add keyboard
       JButton[] keyboardButtons = new JButton[30];
       String[] letters = { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
          	"a", "s", "d", "f", "g", "h", "j", "k", "l", "", "",
@@ -37,6 +50,7 @@ public class HangManGUI extends JFrame implements ActionListener {
       for (int i = 0; i < keyboardButtons.length; i++) {
          keyboardButtons[i] = new JButton(letters[i]);
          keyboardButtons[i].addActionListener(this);
+         keyboardButtons[i].setBackground(buttonColor);
          panel.add(keyboardButtons[i]);
       }
       add(panel, BorderLayout.SOUTH);
@@ -47,11 +61,15 @@ public class HangManGUI extends JFrame implements ActionListener {
       setLocationRelativeTo(null);
    }
    public void paint(Graphics g) {
+      //paint the hook
       super.paint(g);
       g.drawLine(50,200,100,200);
       g.drawLine(75,70,75,200);
       g.drawLine(75,70,120,70);
       g.drawLine(120,70,120,100);
+      
+      //paint in the man if letter is incorrect
+      g.setColor(manColor);
       switch (bodyCount) {
          case 1:
             g.drawOval(105,100,30,30);
@@ -88,18 +106,23 @@ public class HangManGUI extends JFrame implements ActionListener {
             g.drawString("Sorry, you lost, mate!", frameWidth/2, frameHeight/2);
             break;
       }
+      
+      //draw lines and letters
       int xpos1 = 150;
       int xpos2 = 170;
       int ypos = 200;   
       char[] solvingWord = hm.getCurrentWord();
       for (int i = 0; i < word.length(); i++) {
+         g.setColor(lineColor);
          g.drawLine(xpos1,ypos,xpos2,ypos);
+         g.setColor(Color.BLACK);
          g.drawString(String.valueOf(solvingWord[i]), xpos1 + 8, ypos);  
          xpos1 += 60;
          xpos2 += 60;
       }
    }
-      
+    
+   //increase counters based on letter choice  
    public void letter(boolean correct) {
       if (correct == false) {
          bodyCount ++;
@@ -107,7 +130,8 @@ public class HangManGUI extends JFrame implements ActionListener {
          letterCount ++;
       }
    }
-      
+   
+   //disable used buttons
    public void actionPerformed(ActionEvent e) {  
       boolean check = checkLetter(e.getActionCommand(), word);
       JButton jb = (JButton) e.getSource();
@@ -119,6 +143,7 @@ public class HangManGUI extends JFrame implements ActionListener {
       }
    }
    
+   //is the letter in the word
    public boolean checkLetter(String letter, String wrd) {
       if (wrd.contains(letter)) {
          hm.update(letter);
