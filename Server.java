@@ -10,6 +10,7 @@ public class Server extends JFrame implements ActionListener {
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
     private String filename = "WordList1.txt";
+    
     public Server() throws IOException {
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
@@ -137,14 +138,11 @@ public class Server extends JFrame implements ActionListener {
                 Scanner scan = new Scanner(fl);
                 while(scan.hasNext()){
                     String wrd = scan.next();
-                    //System.out.println(wrd);
                     if(wrd.length() < 2 || wrd.length() > 6) {
-                    //Skip words greater than 6 letters long and shorter than 2 letters
                         continue;
                     } else {
                         wordList.add(wrd);
                     }
-                //wordList.add(scan.next());
                 }
                 scan.close();
             } catch(FileNotFoundException fnf) { }
@@ -154,7 +152,7 @@ public class Server extends JFrame implements ActionListener {
             int rand = (int)(Math.random() * range) + min;
             String chosenWord = wordList.get(rand);
             return chosenWord;
-        }//End of SetWord
+        }
     }
 
     /**
