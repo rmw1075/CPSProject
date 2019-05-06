@@ -142,7 +142,7 @@ public class Client extends JFrame {
                         String message = (String) obj;
                         jta.append(message + "\n");
                     } else if(obj instanceof ArrayList<String>){
-                        ArrayList<String> users = (ArrayList<String) obj;
+                        ArrayList<String> users = (ArrayList<String>) obj;
                         seeUsers(users);
                     } else {
                         HangManGUI hang = (HangManGUI) obj;
