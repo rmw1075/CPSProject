@@ -174,7 +174,7 @@ public class Client extends JFrame {
             JPanel jp = new JPanel();
             JTextArea jta = new JTextArea();
             for(int a = 0; a < users.size(); a++){
-                jta.append(users + "\n");
+                jta.append(users.get(a) + "\n");
             }
             jp.add(jta);
             jf.add(jp);
