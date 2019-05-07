@@ -35,6 +35,10 @@ public class HangManGUI extends JFrame implements ActionListener {
 
    public void play(){
       //create new game with word chosen by server
+      int reply = JOptionPane.showConfirmDialog(null, "Want to play hangman?", "Play Hangman?", JOptionPane.YES_NO_OPTION);
+      if (reply == JOptionPane.NO_OPTION) {
+        return;
+      }
       hm = new HangMan(word);
       word = hm.getWord();
       System.out.println(word);
@@ -103,7 +107,7 @@ public class HangManGUI extends JFrame implements ActionListener {
             g.drawLine(120,130,130,150);
             g.drawLine(120,175,110,195);
             g.drawLine(120,175,130,195);
-            g.drawString("Sorry, you lost, mate!", frameWidth/2, frameHeight/2);
+            JOptionPane.showMessageDialog(null, "Sorry, you lost, mate!");
             break;
       }
       
@@ -139,6 +143,7 @@ public class HangManGUI extends JFrame implements ActionListener {
       letter(check);
       repaint();
       if(hm.checkWin()){
+         JOptionPane.showMessageDialog(null, "You won!!!!");
          return;
       }
    }

@@ -10,6 +10,7 @@ public class Server extends JFrame implements ActionListener {
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
     private String filename = "WordList1.txt";
+    
     public Server() throws IOException {
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
@@ -117,18 +118,12 @@ public class Server extends JFrame implements ActionListener {
                             oos.writeObject(hang);
                         } 
                     }
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                    System.out.println(ioe);
-                } catch (ClassNotFoundException cnfe) {
-                    cnfe.printStackTrace();
-                    System.out.println(cnfe);
-                }
+                } catch (IOException ioe) { 
+                } catch (ClassNotFoundException cnfe) { }
             }
         }
 
         public ArrayList<String> getUsers(){
-
             ArrayList<String> usersStr = new ArrayList<String>();
             for(int a = 0; a < users.size(); a++){
                 usersStr.add(users.get(a).name);
@@ -143,26 +138,21 @@ public class Server extends JFrame implements ActionListener {
                 Scanner scan = new Scanner(fl);
                 while(scan.hasNext()){
                     String wrd = scan.next();
-                    //System.out.println(wrd);
                     if(wrd.length() < 2 || wrd.length() > 6) {
-                    //Skip words greater than 6 letters long and shorter than 2 letters
                         continue;
                     } else {
                         wordList.add(wrd);
                     }
-                //wordList.add(scan.next());
                 }
                 scan.close();
-            } catch(FileNotFoundException fnf) {
-                System.out.println(fnf);
-            }
+            } catch(FileNotFoundException fnf) { }
             int max = wordList.size() - 1;
             int min = 1;
             int range = max - min + 1;
             int rand = (int)(Math.random() * range) + min;
             String chosenWord = wordList.get(rand);
             return chosenWord;
-        }//End of SetWord
+        }
     }
 
     /**
@@ -172,8 +162,6 @@ public class Server extends JFrame implements ActionListener {
     public static void main(String[] args) {
         try {
             new Server();
-        } catch(IOException ioe) {
-            System.out.println(ioe);
-        }
+        } catch(IOException ioe) { }
     } 
 }
