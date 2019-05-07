@@ -1,3 +1,8 @@
+/**
+ * A server to hold information about all clients and game
+ * @author Ryan, Alexis, Diego
+ * @version 5/7/2019
+**/
 
 import java.util.*;
 import java.io.*;
@@ -7,11 +12,17 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Server extends JFrame implements ActionListener {
+    //vector to hold clients
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
+    //words to pull from
     private String filename = "WordList1.txt";
     
+    /**
+     * Constructor to create server GUI and connect users
+    **/
     public Server() throws IOException {
+        //server GUI
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         JPanel buttons = new JPanel();
@@ -24,6 +35,7 @@ public class Server extends JFrame implements ActionListener {
         panel.add(jta, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
         
+        //connect clients
         setTitle("Server Chat");
         setSize(900, 900);
         setLocationRelativeTo(null);
@@ -56,6 +68,10 @@ public class Server extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Exit server
+     * @peram ae ActionEvent
+    **/
     public void actionPerformed ( ActionEvent ae ) {
         String command = ae.getActionCommand();
         if (command.equals("Exit")) {
@@ -64,7 +80,7 @@ public class Server extends JFrame implements ActionListener {
     }
 
     /**
-     * ClientHandler class
+     * ClientHandler class connects clients
      */
     public class ClientHandler implements Runnable {
         private ObjectInputStream ois;
@@ -84,7 +100,11 @@ public class Server extends JFrame implements ActionListener {
             this.oos = oos;
             this.ois = ois;
         }
-
+        
+        /**
+         * Threads for clients - sends messages and play requests
+         * @param none
+         */
         @Override
         public void run() {
             while (true) {
@@ -108,7 +128,8 @@ public class Server extends JFrame implements ActionListener {
                                 mc.oos.writeObject(message);
                                 mc.oos.flush();
                             }  
-                        }  
+                        }
+                      //send play request
                     } else if (obj instanceof Request) {
                         Request gameRequest = (Request) obj;
                         jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
@@ -124,7 +145,9 @@ public class Server extends JFrame implements ActionListener {
                 } catch (ClassNotFoundException cnfe) { }
             }
         }
-
+        /**
+         * Allows user to see who is connected
+        **/
         public ArrayList<String> getUsers(){
             ArrayList<String> usersStr = new ArrayList<String>();
             for(int a = 0; a < users.size(); a++){
@@ -132,7 +155,11 @@ public class Server extends JFrame implements ActionListener {
             }
             return usersStr;
         }
-
+        
+        /**
+         * sets the word randomly from the file
+         * @peram filename String
+        **/
         public String setWord (String filename) {   
             ArrayList<String> wordList = new ArrayList<String>();
             try {
