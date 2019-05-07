@@ -5,17 +5,21 @@
 **/
 import java.io.Serializable;
 
-public class Request implements Serializable{
+/**
+ * Request class holds player name and game name
+ * @param none
+ */
+public class Request implements Serializable {
     private static final long serialVersionUID = 1L;
     String name = null;
     String game = null;
 
     /**
      * Sends request for game
-     * @peram name String 
-     * @peram game String
+     * @param name String 
+     * @param game String
     **/
-    public Request(String name, String game){
+    public Request(String name, String game) {
         this.name = name;
         this.game = game;
     }

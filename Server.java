@@ -20,6 +20,7 @@ public class Server extends JFrame implements ActionListener {
     
     /**
      * Constructor to create server GUI and connect users
+     * @throws IOException ioe
     **/
     public Server() throws IOException {
         //server GUI
@@ -70,7 +71,7 @@ public class Server extends JFrame implements ActionListener {
 
     /**
      * Exit server
-     * @peram ae ActionEvent
+     * @param ae ActionEvent
     **/
     public void actionPerformed ( ActionEvent ae ) {
         String command = ae.getActionCommand();
@@ -81,6 +82,7 @@ public class Server extends JFrame implements ActionListener {
 
     /**
      * ClientHandler class connects clients
+     * @param none
      */
     public class ClientHandler implements Runnable {
         private ObjectInputStream ois;
@@ -147,10 +149,11 @@ public class Server extends JFrame implements ActionListener {
         }
         /**
          * Allows user to see who is connected
+         * @return usersStr ArrayList of users logged on
         **/
-        public ArrayList<String> getUsers(){
+        public ArrayList<String> getUsers() {
             ArrayList<String> usersStr = new ArrayList<String>();
-            for(int a = 0; a < users.size(); a++){
+            for (int a = 0; a < users.size(); a++) {
                 usersStr.add(users.get(a).name);
             }
             return usersStr;
@@ -158,23 +161,23 @@ public class Server extends JFrame implements ActionListener {
         
         /**
          * sets the word randomly from the file
-         * @peram filename String
+         * @param filename String
         **/
         public String setWord (String filename) {   
             ArrayList<String> wordList = new ArrayList<String>();
             try {
                 File fl = new File(filename);
                 Scanner scan = new Scanner(fl);
-                while(scan.hasNext()){
+                while (scan.hasNext()) {
                     String wrd = scan.next();
-                    if(wrd.length() < 2 || wrd.length() > 6) {
+                    if (wrd.length() < 2 || wrd.length() > 6) {
                         continue;
                     } else {
                         wordList.add(wrd);
                     }
                 }
                 scan.close();
-            } catch(FileNotFoundException fnf) { }
+            } catch (FileNotFoundException fnf) { }
             int max = wordList.size() - 1;
             int min = 1;
             int range = max - min + 1;
@@ -191,6 +194,6 @@ public class Server extends JFrame implements ActionListener {
     public static void main(String[] args) {
         try {
             new Server();
-        } catch(IOException ioe) { }
+        } catch (IOException ioe) { }
     } 
 }

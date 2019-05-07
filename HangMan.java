@@ -1,9 +1,7 @@
 
 import java.util.*;
 
-public class HangMan
-{
-    
+public class HangMan {
    private ArrayList<String> solveWord = new ArrayList<String>();
    private char[] wordChar;
    private String word;
@@ -23,7 +21,7 @@ public class HangMan
       return wordChar;
    }
    
-   public boolean checkWin(){
+   public boolean checkWin() {
       String check = new String(wordChar);
       if(check.equals(word)){
          return true;

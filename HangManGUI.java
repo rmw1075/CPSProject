@@ -1,6 +1,6 @@
 /**
- * @author Ryan, Alexis, Diego
  * A class to create the GUI for hangman
+ * @author Ryan, Alexis, Diego
  * @version 5/7/2019
 **/
 
@@ -31,7 +31,7 @@ public class HangManGUI extends JFrame implements ActionListener {
    
    /**
     * Hangman GUI Constructor
-    * @peram solveWord String - word to solve
+    * @param solveWord String - word to solve
    **/
    public HangManGUI (String solveWord) {
       word = solveWord;
@@ -39,9 +39,9 @@ public class HangManGUI extends JFrame implements ActionListener {
 
    /**
     * Sends invite to play and sets up GUI
-    * @peram none
+    * @param none
    **/
-   public void play(){
+   public void play() {
       //create new game with word chosen by server
       int reply = JOptionPane.showConfirmDialog(null, "Want to play hangman?", "Play Hangman?", JOptionPane.YES_NO_OPTION);
       if (reply == JOptionPane.NO_OPTION) {
@@ -75,7 +75,7 @@ public class HangManGUI extends JFrame implements ActionListener {
    
    /**
     * Draws the GUI components
-    * @peram g Graphics
+    * @param g Graphics
    **/
    public void paint(Graphics g) {
       //paint the hook
@@ -141,7 +141,7 @@ public class HangManGUI extends JFrame implements ActionListener {
     
    /**
     * Increase counters based on letter choice
-    * @peram correct boolean - is the letter in the word
+    * @param correct boolean - is the letter in the word
    **/  
    public void letter(boolean correct) {
       if (correct == false) {
@@ -153,7 +153,7 @@ public class HangManGUI extends JFrame implements ActionListener {
    
    /**
     * Disables used buttons
-    * @peram e ActionEvent
+    * @param e ActionEvent
    **/ 
    public void actionPerformed(ActionEvent e) {  
       boolean check = checkLetter(e.getActionCommand(), word);
@@ -161,7 +161,7 @@ public class HangManGUI extends JFrame implements ActionListener {
       jb.setEnabled(false);
       letter(check);
       repaint();
-      if(hm.checkWin()){
+      if (hm.checkWin()) {
          JOptionPane.showMessageDialog(null, "You won!!!!");
          return;
       }
@@ -169,8 +169,9 @@ public class HangManGUI extends JFrame implements ActionListener {
    
    /**
     * Check if letter is in the word
-    * @peram letter String - letter pressed
-    * @peram wrd String - entire word
+    * @param letter String - letter pressed
+    * @param wrd String - entire word
+    * @return boolean 
    **/ 
    public boolean checkLetter(String letter, String wrd) {
       if (wrd.contains(letter)) {
