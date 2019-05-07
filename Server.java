@@ -41,7 +41,7 @@ public class Server extends JFrame implements ActionListener {
         System.out.println("Test");
         while (true) {
             s = ss.accept();
-            String userName = InetAddress.getLocalHost().getHostName();
+            String userName = s.getInetAddress().getHostName();
             jta.append(String.format("User connected: %s\n", userName));
             ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
