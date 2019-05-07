@@ -49,8 +49,8 @@ public class Server extends JFrame implements ActionListener {
             users.add(client);
             Thread t = new Thread(client);
             for (ClientHandler mc : users) {
-                oos.writeObject(String.format("%s has entered the server", userName));
-                oos.flush();
+                mc.oos.writeObject(String.format("%s has entered the server", userName));
+                mc.oos.flush();
             }
             t.start();
         }
@@ -116,7 +116,8 @@ public class Server extends JFrame implements ActionListener {
                         System.out.println("Word chosen is: " + word);                      
                         for(ClientHandler mc : users){
                             HangManGUI hang = new HangManGUI(word);
-                            oos.writeObject(hang);
+                            mc.oos.writeObject(hang);
+                            mc.oos.flush();
                         } 
                     }
                 } catch (IOException ioe) { 
