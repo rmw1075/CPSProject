@@ -158,10 +158,7 @@ public class Client extends JFrame {
                         hang.play();
                     }
                 } catch (ClassNotFoundException cnfe) {
-                    cnfe.printStackTrace();
                 } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                    System.out.println(ioe);
                     jta.append("Server Shutdown, Goodbye");
                     break;
                 }
@@ -172,6 +169,7 @@ public class Client extends JFrame {
             JFrame jf = new JFrame();
             JPanel jp = new JPanel();
             JTextArea jta = new JTextArea();
+            jta.setEditable(false);
             for(int a = 0; a < users.size(); a++){
                 jta.append(users.get(a) + "\n");
             }
