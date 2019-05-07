@@ -39,7 +39,6 @@ public class HangManGUI extends JFrame implements ActionListener {
 
    /**
     * Sends invite to play and sets up GUI
-    * @param none
    **/
    public void play() {
       //create new game with word chosen by server

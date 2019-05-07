@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 /**
  * Request class holds player name and game name
- * @param none
  */
 public class Request implements Serializable {
     private static final long serialVersionUID = 1L;

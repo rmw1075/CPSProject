@@ -1,3 +1,9 @@
+/**
+ * Client
+ * @author Ryan, Alexis, Diego
+ * @version 05/07/2019
+ */
+
 import javax.swing.*;
 import java.util.*;
 import java.io.*;
@@ -22,8 +28,6 @@ public class Client extends JFrame {
    
    /**
     * Client constructor, sets up the GUI and connects to server
-    * @param none
-    * @return none
     **/
    public Client() {
       setLayout(new BorderLayout());
@@ -99,9 +103,18 @@ public class Client extends JFrame {
     **/
    public class ClientListener implements ActionListener {
       private ObjectOutputStream oos;
+
+      /**
+       * ClientListener constructor
+       * @param oos ObjectOutputStream
+       */
       public ClientListener(ObjectOutputStream oos) {
          this.oos = oos;
       }
+      /**
+       * actionPerformed
+       * @param ActionEvent ae
+       */
       public void actionPerformed( ActionEvent ae) {
          String command = ae.getActionCommand();
          if(command.equals("Send")){
@@ -111,11 +124,10 @@ public class Client extends JFrame {
          } else if (command.equals("Users Online")) {
             seeUsers();
          }
-      } 
+      }
+
       /**
        * Method that sends message to server
-       * @param none
-       * @return null/void
        */
       public void sendMessage() {
          String message = jtf.getText();
@@ -132,8 +144,6 @@ public class Client extends JFrame {
       
       /**
        * Method that shows the current users connected to the server
-       * @param none
-       * @return null/void
        */
       public void seeUsers() {
          String st = "COMMAND-GET_USERS";
@@ -150,7 +160,6 @@ public class Client extends JFrame {
       /**
        * Method that sends a request to play the hangman game
        * @param game string with the word
-       * @return null/void
        */
       public void sendRequest(String game) {
          Request req = new Request(name, game);
@@ -171,9 +180,18 @@ public class Client extends JFrame {
     */
    public class ReadThread implements Runnable {
       private ObjectInputStream ois;
+
+      /**
+       * ReadThead constructor
+       * @param ois the ObjectInputStream
+       */
       public ReadThread(ObjectInputStream ois) {
          this.ois = ois;
       }
+
+      /**
+       * run method
+       */
       public void run() {
          while (true) {
             try {
@@ -199,7 +217,6 @@ public class Client extends JFrame {
       /**
        * Method that shows the users 
        * @param users Arraylist of type string with user information
-       * @return void/null
        **/
       public void showUsers(ArrayList<String> users){
          JFrame jf = new JFrame();
@@ -222,7 +239,6 @@ public class Client extends JFrame {
    /**
     * Main method, calls the client and runs
     * @param args arguments from the commandline, type string array
-    * @return null/void
     **/
    public static void main(String[] args){
       new Client();

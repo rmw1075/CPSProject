@@ -82,7 +82,6 @@ public class Server extends JFrame implements ActionListener {
 
     /**
      * ClientHandler class connects clients
-     * @param none
      */
     public class ClientHandler implements Runnable {
         private ObjectInputStream ois;
@@ -93,6 +92,7 @@ public class Server extends JFrame implements ActionListener {
         /**
          * Constructor for Client Handler
          * @param s Socket
+         * @param name String
          * @param ois ObjectInputStream
          * @param oos ObjectOutputStream
          */
@@ -105,7 +105,6 @@ public class Server extends JFrame implements ActionListener {
         
         /**
          * Threads for clients - sends messages and play requests
-         * @param none
          */
         @Override
         public void run() {
@@ -162,6 +161,7 @@ public class Server extends JFrame implements ActionListener {
         /**
          * sets the word randomly from the file
          * @param filename String
+         * @return chosenWord Word to be used in the game
         **/
         public String setWord (String filename) {   
             ArrayList<String> wordList = new ArrayList<String>();
