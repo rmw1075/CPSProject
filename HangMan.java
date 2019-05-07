@@ -3,7 +3,8 @@ import hangman.*;
 import java.util.*;
 
 public class HangMan
-{   
+{
+    
    private ArrayList<String> solveWord = new ArrayList<String>();
    private char[] wordChar;
    private String word;
