@@ -1,5 +1,4 @@
 
-import hangman.*;
 import java.util.*;
 
 public class HangMan
