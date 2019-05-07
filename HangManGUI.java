@@ -1,9 +1,10 @@
+
 /**
  * A class to create the GUI for hangman
  * @author Ryan, Alexis, Diego
  * @version 5/7/2019
 **/
-
+import hangman.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
