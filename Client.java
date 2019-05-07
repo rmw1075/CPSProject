@@ -13,10 +13,8 @@ public class Client extends JFrame {
 
     public Client() {
         setLayout(new BorderLayout());
-        // String ip = JOptionPane.showInputDialog(null, "Enter IP address of
-        // chatroom");
-        // int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket
-        // of chatroom"));
+        String ip = JOptionPane.showInputDialog(null, "Enter IP address of chatroom");
+        int server = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter socket of chatroom"));
         jta = new JTextArea();
         jta.setEditable(false);
         jta.setLineWrap(true);
@@ -52,9 +50,9 @@ public class Client extends JFrame {
         }
         try {
             int port = 2019;
-            InetAddress address = Inet4Address.getLocalHost();
-            System.out.println("Localhost: " + address.getHostAddress() + " Port: " + port);
-            s = new Socket(address, port);
+            //InetAddress address = Inet4Address.getLocalHost();
+            //System.out.println("Localhost: " + address.getHostAddress() + " Port: " + port);
+            s = new Socket(ip, server);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
