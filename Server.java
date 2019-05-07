@@ -105,8 +105,8 @@ public class Server extends JFrame implements ActionListener {
                             String message = String.format("%s: %s", this.name, (String) obj);
                             jta.append(message);
                             for (ClientHandler mc : users) {
-                                oos.writeObject(message);
-                                oos.flush();
+                                mc.oos.writeObject(message);
+                                mc.oos.flush();
                             }  
                         }  
                     } else if (obj instanceof Request) {

@@ -103,7 +103,6 @@ public class Client extends JFrame {
         public void sendMessage() {
             String message = jtf.getText();
             try {
-                oos.flush();
                 oos.writeObject(message);
                 oos.flush();
             } catch (IOException ioe) {
