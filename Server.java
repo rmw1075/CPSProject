@@ -1,17 +1,38 @@
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Vector;
+import hangman.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
-import java.awt.event.*;
-import javax.swing.*;
 public class Server extends JFrame implements ActionListener {
+    //vector to hold clients
     private Vector<ClientHandler> users = new Vector<ClientHandler>();
     private JTextArea jta;
+    //words to pull from
     private String filename = "WordList1.txt";
     
+    /**
+     * Constructor to create server GUI and connect users
+     * @throws IOException ioe
+    **/
     public Server() throws IOException {
+        //server GUI
         setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         JPanel buttons = new JPanel();
@@ -24,6 +45,7 @@ public class Server extends JFrame implements ActionListener {
         panel.add(jta, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
         
+        //connect clients
         setTitle("Server Chat");
         setSize(900, 900);
         setLocationRelativeTo(null);
@@ -56,6 +78,10 @@ public class Server extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Exit server
+     * @param ae ActionEvent
+    **/
     public void actionPerformed ( ActionEvent ae ) {
         String command = ae.getActionCommand();
         if (command.equals("Exit")) {
@@ -64,7 +90,7 @@ public class Server extends JFrame implements ActionListener {
     }
 
     /**
-     * ClientHandler class
+     * ClientHandler class connects clients
      */
     public class ClientHandler implements Runnable {
         private ObjectInputStream ois;
@@ -75,6 +101,7 @@ public class Server extends JFrame implements ActionListener {
         /**
          * Constructor for Client Handler
          * @param s Socket
+         * @param name String
          * @param ois ObjectInputStream
          * @param oos ObjectOutputStream
          */
@@ -84,7 +111,10 @@ public class Server extends JFrame implements ActionListener {
             this.oos = oos;
             this.ois = ois;
         }
-
+        
+        /**
+         * Threads for clients - sends messages and play requests
+         */
         @Override
         public void run() {
             while (true) {
@@ -108,7 +138,8 @@ public class Server extends JFrame implements ActionListener {
                                 mc.oos.writeObject(message);
                                 mc.oos.flush();
                             }  
-                        }  
+                        }
+                      //send play request
                     } else if (obj instanceof Request) {
                         Request gameRequest = (Request) obj;
                         jta.append(String.format("%s has requested to play %s, sending game to clients.\n", gameRequest.name, gameRequest.game));
@@ -125,30 +156,38 @@ public class Server extends JFrame implements ActionListener {
             }
             
         }
-
-        public ArrayList<String> getUsers(){
+        /**
+         * Allows user to see who is connected
+         * @return usersStr ArrayList of users logged on
+        **/
+        public ArrayList<String> getUsers() {
             ArrayList<String> usersStr = new ArrayList<String>();
-            for(int a = 0; a < users.size(); a++){
+            for (int a = 0; a < users.size(); a++) {
                 usersStr.add(users.get(a).name);
             }
             return usersStr;
         }
-
+        
+        /**
+         * sets the word randomly from the file
+         * @param filename String
+         * @return chosenWord Word to be used in the game
+        **/
         public String setWord (String filename) {   
             ArrayList<String> wordList = new ArrayList<String>();
             try {
                 File fl = new File(filename);
                 Scanner scan = new Scanner(fl);
-                while(scan.hasNext()){
+                while (scan.hasNext()) {
                     String wrd = scan.next();
-                    if(wrd.length() < 2 || wrd.length() > 6) {
+                    if (wrd.length() < 2 || wrd.length() > 6) {
                         continue;
                     } else {
                         wordList.add(wrd);
                     }
                 }
                 scan.close();
-            } catch(FileNotFoundException fnf) { }
+            } catch (FileNotFoundException fnf) { }
             int max = wordList.size() - 1;
             int min = 1;
             int range = max - min + 1;
@@ -165,6 +204,6 @@ public class Server extends JFrame implements ActionListener {
     public static void main(String[] args) {
         try {
             new Server();
-        } catch(IOException ioe) { }
+        } catch (IOException ioe) { }
     } 
 }

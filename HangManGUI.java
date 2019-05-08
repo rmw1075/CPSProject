@@ -1,3 +1,9 @@
+
+/**
+ * A class to create the GUI for hangman
+ * @author Ryan, Alexis, Diego
+ * @version 5/7/2019
+**/
 import hangman.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,11 +13,6 @@ import java.util.Random;
 import java.awt.Container;
 import java.lang.Object;
 import java.util.*;
-
-/**
- * A class to create the GUI for hangman
- * 5/6/2019
-**/
 
 public class HangManGUI extends JFrame implements ActionListener {
    //frame settings
@@ -29,11 +30,18 @@ public class HangManGUI extends JFrame implements ActionListener {
    Color manColor = new Color(255,199,57);
    Color lineColor = new Color(235,131,142);
    
+   /**
+    * Hangman GUI Constructor
+    * @param solveWord String - word to solve
+   **/
    public HangManGUI (String solveWord) {
       word = solveWord;
    }
 
-   public void play(){
+   /**
+    * Sends invite to play and sets up GUI
+   **/
+   public void play() {
       //create new game with word chosen by server
       int reply = JOptionPane.showConfirmDialog(null, "Want to play hangman?", "Play Hangman?", JOptionPane.YES_NO_OPTION);
       if (reply == JOptionPane.NO_OPTION) {
@@ -64,6 +72,11 @@ public class HangManGUI extends JFrame implements ActionListener {
       setVisible(true);
       setLocationRelativeTo(null);
    }
+   
+   /**
+    * Draws the GUI components
+    * @param g Graphics
+   **/
    public void paint(Graphics g) {
       //paint the hook
       super.paint(g);
@@ -126,7 +139,10 @@ public class HangManGUI extends JFrame implements ActionListener {
       }
    }
     
-   //increase counters based on letter choice  
+   /**
+    * Increase counters based on letter choice
+    * @param correct boolean - is the letter in the word
+   **/  
    public void letter(boolean correct) {
       if (correct == false) {
          bodyCount ++;
@@ -135,20 +151,28 @@ public class HangManGUI extends JFrame implements ActionListener {
       }
    }
    
-   //disable used buttons
+   /**
+    * Disables used buttons
+    * @param e ActionEvent
+   **/ 
    public void actionPerformed(ActionEvent e) {  
       boolean check = checkLetter(e.getActionCommand(), word);
       JButton jb = (JButton) e.getSource();
       jb.setEnabled(false);
       letter(check);
       repaint();
-      if(hm.checkWin()){
+      if (hm.checkWin()) {
          JOptionPane.showMessageDialog(null, "You won!!!!");
          return;
       }
    }
    
-   //is the letter in the word
+   /**
+    * Check if letter is in the word
+    * @param letter String - letter pressed
+    * @param wrd String - entire word
+    * @return boolean 
+   **/ 
    public boolean checkLetter(String letter, String wrd) {
       if (wrd.contains(letter)) {
          hm.update(letter);
@@ -158,15 +182,3 @@ public class HangManGUI extends JFrame implements ActionListener {
       }
    }
 }
-   
-   
-   // What needs to be done
-   // 1. Add Set word as separate function so that it can be easily accessed here
-   // 2. After word is set, start checking for correct word by
-   // adding a function that will check if a letter being passed in
-   // is within the word
-   // 3. Update paint based on errors (When person pick wrong letter
-   // body parts should begin to appear)
-   // 4. Figure out next steps
-   
-   //
