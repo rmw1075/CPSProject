@@ -1,0 +1,7 @@
+How to play Hangman:
+    The game will choose a word for you. all you need to do is guess it!
+    When you guess a word correctly, the letters will be displayed on the spaces and the letter button will gray out.
+    If you guess the word incorrectly, the button gets grayed out and your man gains a body part!
+
+Once you win or lose:
+    To exit hangman, click the red 'x' on the frame and you will be left with only the client!
