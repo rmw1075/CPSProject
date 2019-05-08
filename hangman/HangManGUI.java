@@ -1,10 +1,10 @@
-
+package hangman;
 /**
  * A class to create the GUI for hangman
  * @author Ryan, Alexis, Diego
  * @version 5/7/2019
 **/
-import hangman.*;
+import hangman.HangMan.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,7 +18,6 @@ public class HangManGUI extends JFrame implements ActionListener {
    //frame settings
    int frameWidth = 500;
    int frameHeight = 500;
-   
    //counters
    int bodyCount = 0;
    int letterCount = 0;

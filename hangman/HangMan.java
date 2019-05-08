@@ -1,11 +1,9 @@
-
 package hangman;
 /**
  * Hangman Game Skeleton
  * @author Ryan, Alexis, Diego
  * @version 05/07/2019
  */
-import hangman.*;
 import java.util.*;
 
 /***

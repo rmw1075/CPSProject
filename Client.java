@@ -4,7 +4,7 @@
  * @author Ryan, Alexis, Diego
  * @version 05/07/2019
  */
-
+import hangman.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
