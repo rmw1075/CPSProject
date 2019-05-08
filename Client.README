@@ -1,0 +1,7 @@
+Features of the client:
+    To view users, click the 'Users online' menu item.
+    To play hangman with all users, click the 'Game -> Play Hangman' option in the menu bar.
+    Type anything into the textbox to chat with others!!
+
+When the Server is shut down:
+    When the server is shut down, it will display a message. Then, click the 'x' in the frame to close the client.
