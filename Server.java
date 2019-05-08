@@ -123,6 +123,7 @@ public class Server extends JFrame implements ActionListener {
                 } catch (IOException ioe) { 
                 } catch (ClassNotFoundException cnfe) { }
             }
+            
         }
 
         public ArrayList<String> getUsers(){
